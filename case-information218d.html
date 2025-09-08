@@ -935,7 +935,7 @@
         return;
       }
 
-      const apiUrl = `${BASE_API_URL}/general/case_info.php?case_type=${encodeURIComponent(caseType)}&case_no=${encodeURIComponent(caseNo)}&year=${encodeURIComponent(caseYear)}`;
+      const apiUrl = `${BASE_API_URL}/general/case_info?case_type=${encodeURIComponent(caseType)}&case_no=${encodeURIComponent(caseNo)}&year=${encodeURIComponent(caseYear)}`;
 
       $.ajax({
         url: apiUrl,
