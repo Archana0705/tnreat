@@ -796,73 +796,60 @@
       });
       // When the Update button is clicked
       $('#updateBtn').on('click', function () {
-        // Gather data from the modal
-        const subject = $('#editSubject').val();
-        const serial_number = $(this).data('id'); // Get the stored serial number
-        const fileInput = $('#editFile')[0];
-        const file = fileInput.files[0]; // The new file selected by the user
+    // Gather data from the modal
+    const subject = $('#editSubject').val();
+    const serial_number = $(this).data('id'); // Get the stored serial number
+    const fileInput = $('#editFile')[0];
+    const file = fileInput.files[0]; // The new file selected by the user
 
-        // Validate form data
-        if (!subject) {
-          showErrorToast("Please fill in all fields.");
-          return;
-        }
+    // Validate form data
+    if (!subject) {
+        showErrorToast("Please fill in all fields.");
+        return;
+    }
 
-        // Prepare the payload object
-        const payload = {
-          subject: subject,
-          serial_number: serial_number
-        };
+    // Prepare FormData
+    const formData = new FormData();
+    formData.append("subject", subject);
+    formData.append("serial_number", serial_number);
 
-        // If a new file is selected, validate and convert it to Base64
-        if (file) {
-          const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'text/plain'];
-          const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+    // If a new file is selected, validate and attach it
+    if (file) {
+        const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'text/plain'];
+        const maxSize = 5 * 1024 * 1024; // 5MB in bytes
 
-          // Check file type
-          if (!validTypes.includes(file.type)) {
-            $('#editFileError').text("Invalid file type. Supported file types: .pdf, .jpg, .jpeg, .txt.").removeClass('d-none');
+        // Check file type
+        if (!validTypes.includes(file.type)) {
+            $('#editFileError')
+                .text("Invalid file type. Supported file types: .pdf, .jpg, .jpeg, .txt.")
+                .removeClass('d-none');
             return;
-          } else {
-            $('#editFileError').addClass('d-none'); // Hide error if valid type
-          }
-
-          // Check file size
-          if (file.size > maxSize) {
-            $('#editFileError').text("File size exceeds the 5MB limit.").removeClass('d-none');
-            return;
-          } else {
-            $('#editFileError').addClass('d-none'); // Hide error if valid size
-          }
-
-          // Convert file to Base64
-          const reader = new FileReader();
-          reader.onload = function (event) {
-            const fileBase64 = event.target.result.split(',')[1]; // Extract Base64 string
-
-            // Add the file data to the payload
-            payload.filename = file.name;
-            payload.MIMETYPE = file.type;
-            payload.file = fileBase64;
-
-            // Send the update request
-            sendUpdateRequest(payload);
-          };
-
-          // Start reading the file as Base64
-          reader.readAsDataURL(file);
         } else {
-          // If no new file is selected, do not send file-related data
-          // Instead, send the existing file information or leave it out
-          // Assuming 'filename' is available from a previous data attribute (if any)
-          payload.filename = $('#filenameDisplay').text(); // Get the existing filename
-          payload.MIMETYPE = ''; // Set to empty if no new file is uploaded
-          payload.file = ''; // Do not send new file if none is selected
-
-          // Send the update request
-          sendUpdateRequest(payload);
+            $('#editFileError').addClass('d-none');
         }
-      });
+
+        // Check file size
+        if (file.size > maxSize) {
+            $('#editFileError')
+                .text("File size exceeds the 5MB limit.")
+                .removeClass('d-none');
+            return;
+        } else {
+            $('#editFileError').addClass('d-none');
+        }
+
+        // Attach the raw file
+        formData.append("file", file);
+    } else {
+        // keep old file info if no new file selected
+        formData.append("filename", $('#filenameDisplay').text());
+        formData.append("MIMETYPE", $('#filenameDisplay').data('mimetype')); // store mimetype in DOM when you render
+    }
+
+    // Send the update request
+    sendUpdateRequest(formData);
+});
+
       // When the delete modal is shown, set the serial number to the delete button
       $(document).on('click', '.delete-btn', function () {
         var serialNumber = $(this).data('serial_number');
@@ -900,108 +887,42 @@
         });
       });
       // Function to send the update request with the given payload
-      function sendUpdateRequest(payload) {
-        $.ajax({
-          url: `${BASE_API_URL}/admin/access/downloads_update`,
-          type: 'POST',
-          headers: {
+      function sendUpdateRequest(formData) {
+    $.ajax({
+        url: `${BASE_API_URL}/admin/access/downloads_update`,
+        type: 'POST',
+        headers: {
             "X-APP-Key": "tnreat",
             "X-APP-Name": "tnreat"
-          },
-          contentType: 'application/json', // Tell the server the content type is JSON
-          data: JSON.stringify(payload),  // Convert the JavaScript object to JSON string
-          success: function (response) {
+        },
+        processData: false,  // prevent jQuery from processing
+        contentType: false,  // let browser set correct boundary
+        data: formData,
+        success: function (response) {
             if (response.success) {
-              showSuccessToast("Notification updated successfully");
-              $('#editNotificationForm')[0].reset(); // Reset the form
-              $('#editFileError').addClass('d-none'); // Hide file error
-              setTimeout(function () {
-                location.reload();
-              }, 1000);
+                showSuccessToast("Notification updated successfully");
+                $('#editNotificationForm')[0].reset();
+                $('#editFileError').addClass('d-none');
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
             } else {
-              console.log("Error: " + response.message);
+                showErrorToast(response.message || "Update failed");
             }
-          },
-          error: function (xhr, status, error) {
-            console.log('Error:', error);
-          }
-        });
-      }
+        },
+        error: function (xhr, status, error) {
+            showErrorToast("Error: " + error);
+        }
+    });
+}
+
       // Function to convert date from DD/MM/YYYY to YYYY-MM-DD
       function formatDate(dateString) {
         const parts = dateString.split('/');
         return `${parts[2]}-${parts[1]}-${parts[0]}`; // YYYY-MM-DD
       }
 
-      // Function to open an image in a new page
-      function openImageInNewPage(fileBase64, fileName, mimeType) {
-        const newWindow = window.open('', '_blank'); // Open a new window
-        newWindow.document.write(`
-              <html>
-                  <head>
-                      <title>Viewing ${fileName}</title>
-                      <style>
-                          body { margin: 0; }
-                          #image-container { display: flex; justify-content: center; align-items: center; height: 100vh; }
-                          img { max-width: 100%; max-height: 100%; }
-                      </style>
-                  </head>
-                  <body>
-                      <div id="image-container">
-                          <img src="data:${mimeType};base64,${fileBase64}" alt="${fileName}" />
-                      </div>
-                  </body>
-              </html>
-          `);
-        newWindow.document.close(); // Close the document to finish loading the content
-      }
-      function openPdfInNewPage(fileBase64, fileName) {
-        // Create a new HTML page for displaying the PDF
-        const newWindow = window.open('', '_blank'); // Open a new window
-
-        // Add the necessary HTML structure to the new window
-        newWindow.document.write(`
-            <html>
-                <head>
-                    <title>Viewing ${fileName}</title>
-                    <style>
-                        body { margin: 0; }
-                        #pdf-container { height: 100vh; display: flex; justify-content: center; align-items: center; }
-                    </style>
-                </head>
-                <body>
-                    <div id="pdf-container">
-                        <embed src="data:application/pdf;base64,${fileBase64}" width="100%" height="100%" type="application/pdf" />
-                    </div>
-                </body>
-            </html>
-        `);
-
-        newWindow.document.close(); // Close the document to finish loading the content
-      }
-      // Function to open a text file in a new page
-      function openTextInNewPage(fileBase64, fileName) {
-        // Decode the Base64 string to plain text
-        const decodedText = atob(fileBase64);  // Decode the Base64 string
-
-        // Open a new window to display the text
-        const newWindow = window.open('', '_blank'); // Open a new window
-        newWindow.document.write(`
-              <html>
-                  <head>
-                      <title>Viewing Text File</title>
-                      <style>
-                          body { margin: 0; font-family: Arial, sans-serif; background-color: #f5f5f5; }
-                          pre { white-space: pre-wrap; word-wrap: break-word; padding: 20px; font-size: 14px; color: #333; }
-                      </style>
-                  </head>
-                  <body>
-                      <pre>${decodedText}</pre>
-                  </body>
-              </html>
-          `);
-        newWindow.document.close(); // Close the document to finish loading the content
-      }
+     
     });
   </script>
   <script>
