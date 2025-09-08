@@ -847,15 +847,20 @@
 
     // ▶️ Initial load
     $(document).ready(function () {
-      loadChairpersonMembers(currentLang);
+      loadChairpersonMembers(getCurrentLang());
     });
 
-    // 🔄 On toggle button (this is in language.js)
     $('#langToggle').on('click', function () {
-      currentLang = currentLang === 'en' ? 'ta' : 'en';
-      $(this).find('.t-Button-label').text(currentLang === 'en' ? 'தமிழ்' : 'English');
-      loadChairpersonMembers(currentLang);
+      const lang = getCurrentLang();
+      const newLang = lang === 'en' ? 'ta' : 'en';
+      localStorage.setItem("language", newLang);
+
+      $(this).find('.t-Button-label').text(newLang === 'en' ? 'தமிழ்' : 'English');
+
+      loadChairpersonMembers(newLang); // pass the current lang explicitly
+      updateLangContent();
     });
+
   </script>
 
 

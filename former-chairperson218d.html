@@ -776,16 +776,19 @@
       });
     }
 
-    // 🔄 Toggle language
-    $('#langToggle').on('click', function () {
-      currentLang = currentLang === 'en' ? 'ta' : 'en';
-      $(this).find('.t-Button-label').text(currentLang === 'en' ? 'தமிழ்' : 'English');
-      loadFormerChairpersons(currentLang);
+    $(document).ready(function () {
+      loadFormerChairpersons(getCurrentLang());
     });
 
-    // ▶️ Initial load
-    $(document).ready(function () {
-      loadFormerChairpersons(currentLang);
+    $('#langToggle').on('click', function () {
+      const lang = getCurrentLang();
+      const newLang = lang === 'en' ? 'ta' : 'en';
+      localStorage.setItem("language", newLang);
+
+      $(this).find('.t-Button-label').text(newLang === 'en' ? 'தமிழ்' : 'English');
+
+      loadFormerChairpersons(newLang); // pass the current lang explicitly
+      updateLangContent();
     });
 
   </script>
