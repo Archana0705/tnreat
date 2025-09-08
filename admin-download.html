@@ -655,7 +655,7 @@
             let newRow = `<tr>
                         <td>${rowIndex}</td>
                         <td>${item.subject}</td>
-                        <td><a href="javascript:void(0);" class="download-btn" data-download="${item.download}" data-mimetype="${item.mimetype} data-filename="${item.filename}" target="_blank">Download</a></td>
+                        <td><a href="javascript:void(0);" class="download-btn" data-download="${item.download}" data-mimetype="${item.mimetype}" data-filename="${item.filename}" target="_blank">Download</a></td>
                         <td>
                           <a data-bs-toggle="modal" data-bs-target=".editmodal" class="btn edit-btn" data-subject="${item.subject}" data-filename="${item.filename}" data-mimetype="${item.mimetype}" data-serial_number="${item.serial_number}" href="#" title="Edit"><i class="bi bi-pencil"></i></a>
                           <a data-bs-toggle="modal" data-bs-target=".deletemodal" class="btn delete-btn" data-serial_number="${item.serial_number}" href="#" title="Delete"><i class="bi bi-trash"></i></a>
@@ -679,20 +679,31 @@
             dom: 'lfrtip',        // Use the basic table layout with search, table, info, and pagination
           });
           $(document).on('click', '.download-btn', function () {
-            const fileBase64 = $(this).data('download');
+            const filePath = $(this).data('download'); // e.g., "uploads/test.pdf"
             const fileName = $(this).data('filename');
-            const fileMimeType = $(this).data('mimetype');
-            if (fileMimeType.startsWith("image")) {
-              // If the file is an image (JPEG, JPG, PNG, etc.)
-              openImageInNewPage(fileBase64, fileName, fileMimeType);
-            } else if (fileMimeType.startsWith("application")) {
-              // If the file is a PDF
-              openPdfInNewPage(fileBase64, fileName);
-            } else if (fileMimeType.startsWith("text")) {
-              // If the file is a text file
-              openTextInNewPage(fileBase64, fileName);
+            const mimeType = $(this).data('mimetype');
+
+            if (!filePath || !fileName) {
+              alert("Missing file data!");
+              return;
+            }
+            // Ensure full URL
+            let fileUrl = filePath;
+            if (!fileUrl.startsWith("http")) {
+              fileUrl = BASE_UPLOAD_URL + filePath.replace(/^uploads\//, "");
+            }
+            fileUrl = encodeURI(fileUrl);
+
+            // Open in new tab for viewable types
+            if (mimeType && (mimeType.includes('pdf') || mimeType.includes('image'))) {
+              window.open(fileUrl, '_blank');
             } else {
-              console.error("Unknown MIME type: ", fileMimeType);
+              const a = document.createElement('a');
+              a.href = fileUrl;
+              a.download = fileName;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
             }
           });
         },
@@ -703,81 +714,73 @@
       });
 
       $('#createBtn').click(function () {
-        // Get form values
-        const subject = $('#subject').val();
-        const fileInput = $('#file')[0];
-        const file = fileInput.files[0];
+  // Get form values
+  const subject = $('#subject').val();
+  const fileInput = $('#file')[0];
+  const file = fileInput.files[0];
 
-        // Validate form data
-        if (!subject || !file) {
-          showErrorToast("Please fill in all fields.");
-          return;
-        }
+  // Validate form data
+  if (!subject || !file) {
+    showErrorToast("Please fill in all fields.");
+    return;
+  }
 
-        // File validation: Check file type and size
-        const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'text/plain'];
-        const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+  // File validation: Check file type and size
+  const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'text/plain'];
+  const maxSize = 5 * 1024 * 1024; // 5MB in bytes
 
-        // Check file type
-        if (!validTypes.includes(file.type)) {
-          $('#fileError').text("Invalid file type. Supported file types: .pdf, .jpg, .jpeg, .txt.").removeClass('d-none');
-          return;
-        } else {
-          $('#fileError').addClass('d-none'); // Hide error if valid type
-        }
+  // Check file type
+  if (!validTypes.includes(file.type)) {
+    $('#fileError').text("Invalid file type. Supported file types: .pdf, .jpg, .jpeg, .txt.").removeClass('d-none');
+    return;
+  } else {
+    $('#fileError').addClass('d-none'); // Hide error if valid type
+  }
 
-        // Check file size
-        if (file.size > maxSize) {
-          $('#fileError').text("File size exceeds the 5MB limit.").removeClass('d-none');
-          return;
-        } else {
-          $('#fileError').addClass('d-none'); // Hide error if valid size
-        }
+  // Check file size
+  if (file.size > maxSize) {
+    $('#fileError').text("File size exceeds the 5MB limit.").removeClass('d-none');
+    return;
+  } else {
+    $('#fileError').addClass('d-none'); // Hide error if valid size
+  }
 
-        // Convert file to Base64
-        const reader = new FileReader();
-        reader.onload = function (event) {
-          const fileBase64 = event.target.result.split(',')[1]; // Extract Base64 string
+  // Prepare FormData (no Base64)
+  const formData = new FormData();
+  formData.append('subject', subject);
+  formData.append('filename', file.name);
+  formData.append('MIMETYPE', file.type);
+  formData.append('file', file); // actual file, not Base64
 
-          // Prepare the JSON payload
-          const payload = {
-            subject: subject,
-            filename: file.name,  // Base64 encoded file
-            MIMETYPE: file.type,  // File MIME type
-            file: fileBase64
-          };
+  // Send AJAX request with FormData
+  $.ajax({
+    url: `${BASE_API_URL}/admin/access/downloads_insert`,
+    type: 'POST',
+    headers: {
+      "X-APP-Key": "tnreat",
+      "X-APP-Name": "tnreat"
+    },
+    data: formData,
+    processData: false, // prevent jQuery from processing data
+    contentType: false, // prevent jQuery from setting content type
+    success: function (response) {
+      if (response.success) {
+        showSuccessToast("Created Successful");
+        $('#notificationForm')[0].reset(); // Reset the form
+        $('#fileError').addClass('d-none'); // Hide file error
+        setTimeout(function () {
+          location.reload();
+        }, 1000);
+      } else {
+        console.log("Error: " + response.message);
+      }
+    },
+    error: function (xhr, status, error) {
+      console.log('Error:', error);
+    }
+  });
+});
 
-          // Send AJAX request with JSON payload
-          $.ajax({
-            url: `${BASE_API_URL}/admin/access/downloads_insert`,
-            type: 'POST',
-            headers: {
-              "X-APP-Key": "tnreat",
-              "X-APP-Name": "tnreat"
-            },
-            contentType: 'application/json', // Tell the server the content type is JSON
-            data: JSON.stringify(payload),  // Convert the JavaScript object to JSON string
-            success: function (response) {
-              if (response.success) {
-                showSuccessToast("Created Successful");
-                $('#notificationForm')[0].reset(); // Reset the form
-                $('#fileError').addClass('d-none'); // Hide file error
-                setTimeout(function () {
-                  location.reload();
-                }, 1000);
-              } else {
-                console.log("Error: " + response.message);
-              }
-            },
-            error: function (xhr, status, error) {
-              console.log('Error:', error);
-            }
-          });
-        };
-
-        // Start reading the file as Base64
-        reader.readAsDataURL(file);
-      });
       // When the Edit button is clicked, populate the modal
       $(document).on('click', '.edit-btn', function () {
         // Get the data attributes

@@ -783,13 +783,18 @@
         "X-APP-Name": "tnreat"
       },
       dataType: 'json',
-      success: function (response) {
+      success: function (response) { 
         if (response.success === 1 && Array.isArray(response.data)) {
           response.data.forEach((row, index) => {
             const tr = $('<tr></tr>');
             tr.append(`<td class="u-tC">${index + 1}</td>`);
             tr.append(`<td class="u-tC">${row.subject}</td>`);
-            tr.append(`<td class="u-tC"><a href="${row.filename}" download="${row.filename}" title="Download">Download</a></td>`);
+            tr.append(`<td class="u-tC"><button class="download-btn" 
+                data-download="${row.download}" 
+                data-filename="${row.filename}" 
+                data-mimetype="application/pdf">
+                Download
+            </button></td>`);
             $('#table-body').append(tr);
           });
 
@@ -811,6 +816,35 @@
       },
       error: function (xhr, status, error) {
         console.error('Error fetching the data:', error);
+      }
+    });
+    $(document).on('click', '.download-btn', function () {
+      const filePath = $(this).data('download'); // e.g., "uploads/test.pdf"
+      const fileName = $(this).data('filename');
+      const mimeType = $(this).data('mimetype');
+
+      if (!filePath || !fileName) {
+        alert("Missing file data!");
+        return;
+      }
+
+      // Ensure full URL
+      let fileUrl = filePath;
+      if (!fileUrl.startsWith("http")) {
+        fileUrl = BASE_UPLOAD_URL + filePath.replace(/^uploads\//, "");
+      }
+      fileUrl = encodeURI(fileUrl);
+
+      // Open in new tab for PDFs & images
+      if (mimeType && (mimeType.includes('pdf') || mimeType.includes('image'))) {
+        window.open(fileUrl, '_blank');
+      } else {
+        const a = document.createElement('a');
+        a.href = fileUrl;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
       }
     });
   </script>

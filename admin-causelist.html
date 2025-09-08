@@ -633,68 +633,7 @@
         });
         toast.show();
       }
-      // Fetch data from the API
-      // $.ajax({
-      //   url: `${BASE_API_URL}/admin/cause_list_admin`,
-      //   method: 'GET',
-      //   success: function (response) {
-      //     // Assuming 'data' is an array of objects from the API
-      //     const tableData = response.data;
-      //     const tableBody = $('#grievanceTable tbody');
-      //     let rowIndex = 1; // Start with S.No 1
-
-      //     // Loop through the API data and populate the table
-      //     tableData.forEach(item => {
-      //       let newRow = `<tr>
-      //                   <td>${rowIndex}</td>
-      //                   <td>${item.the_date}</td>
-      //                   <td><a href="javascript:void(0);" class="download-btn" data-download="${item.download}" data-mimetype="${item.mimetype} data-filename="${item.filename}" target="_blank">Download</a></td>
-      //                   <td>
-      //                     <a data-bs-toggle="modal" data-bs-target=".editmodal" class="btn edit-btn" data-date="${item.the_date}" data-filename="${item.filename}" data-mimetype="${item.mimetype}" data-serial_number="${item.serial_number}" href="#" title="Edit"><i class="bi bi-pencil"></i></a>
-      //                     <a data-bs-toggle="modal" data-bs-target=".deletemodal" class="btn delete-btn" data-serial_number="${item.serial_number}" href="#" title="Delete"><i class="bi bi-trash"></i></a>
-      //                   </td>
-      //               </tr>`;
-
-      //       tableBody.append(newRow);
-      //       rowIndex++;
-      //     });
-
-      //     // Initialize DataTable
-      //     $('#grievanceTable').DataTable({
-      //       paging: true,        // Enable pagination
-      //       searching: true,     // Enable search box
-      //       ordering: true,      // Enable sorting
-      //       order: [[0, 'asc']], // Default sorting by Serial No. column (ascending)
-      //       columnDefs: [
-      //         { targets: '_all', orderable: true }, // Enable sorting for all columns
-      //       ],
-      //       responsive: true,    // Make the table responsive
-      //       dom: 'lfrtip',        // Use the basic table layout with search, table, info, and pagination
-      //     });
-      //     $(document).on('click', '.download-btn', function () {
-      //       const fileBase64 = $(this).data('download');
-      //       const fileName = $(this).data('filename');
-      //       const fileMimeType = $(this).data('mimetype');
-      //       if (fileMimeType.startsWith("image")) {
-      //         // If the file is an image (JPEG, JPG, PNG, etc.)
-      //         openImageInNewPage(fileBase64, fileName, fileMimeType);
-      //       } else if (fileMimeType.startsWith("application")) {
-      //         // If the file is a PDF
-      //         openPdfInNewPage(fileBase64, fileName);
-      //       } else if (fileMimeType.startsWith("text")) {
-      //         // If the file is a text file
-      //         openTextInNewPage(fileBase64, fileName);
-      //       } else {
-      //         console.error("Unknown MIME type: ", fileMimeType);
-      //       }
-      //     });
-      //   },
-      //   error: function (xhr, status, error) {
-      //     showErrorToast("Something went wrong");
-      //     console.error('Error fetching data: ', error);
-      //   }
-      // });
-
+      
       $.ajax({
         url: `${BASE_API_URL}/admin/cause_list_admin`,
         method: 'GET',
