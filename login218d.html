@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>TNREAT - Log In</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Bootstrap + Icons -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/custom.min.css">
+
+    <style>
+        .toast-container {
+            right: 0.5%;
+        }
+
+        #successToast {
+            background: #198754 !important;
+        }
+
+        #errorToast {
+            background: #ff0000 !important;
+        }
+
+        .captcha-box {
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 22px;
+            letter-spacing: 5px;
+            text-align: center;
+            background: #f8f9fa;
+            border: 2px dashed #6c757d;
+            padding: 10px;
+            user-select: none;
+        }
+
+        .captcha-refresh {
+            cursor: pointer;
+            font-size: 20px;
+            margin-left: 10px;
+            color: #198754;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <!-- Toast -->
+    <div class="toast-container position-fixed p-3">
+        <div id="errorToast" class="toast align-items-center border-0 text-white" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <p id="errorMessage" class="mb-0"></p>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+        <div id="successToast" class="toast align-items-center border-0 text-white" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <p id="successMessage" class="mb-0"></p>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+    <!-- /Toast -->
+
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card shadow p-4 rounded-4" style="width: 100%; max-width: 400px;">
+            <div class="text-center mb-4">
+                <img src="assets/img/app-icon-192.png" alt="Logo" width="80">
+                <h4 class="mt-2">TNREAT NEW</h4>
+            </div>
+
+            <div class="mb-3">
+                <input type="text" id="P9999_USERNAME" class="form-control" placeholder="Username" autocomplete="off">
+            </div>
+
+            <div class="mb-3">
+                <input type="password" id="P9999_PASSWORD" class="form-control" placeholder="Password"
+                    autocomplete="off">
+            </div>
+
+            <!-- Captcha Section -->
+            <div class="mb-3">
+                <div class="d-flex align-items-center">
+                    <div id="captchaCode" class="captcha-box flex-grow-1"></div>
+                    <i class="bi bi-arrow-clockwise captcha-refresh" id="refreshCaptcha" title="Refresh"></i>
+                </div>
+                <input type="text" id="captchaInput" class="form-control mt-2" placeholder="Enter captcha">
+            </div>
+
+            <div class="form-check mb-3">
+                <input type="checkbox" id="P9999_REMEMBER" class="form-check-input">
+                <label for="P9999_REMEMBER" class="form-check-label">Remember username</label>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button id="loginButton" class="btn btn-success">Sign In</button>
+                <button class="btn btn-secondary" type="button" data-bs-toggle="modal"
+                    data-bs-target="#forgotPasswordModal">
+                    Forgot Password
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header">
+                    <h5 class="modal-title">Forgot Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="forgotUsername" class="form-control mb-2" placeholder="Username">
+                    <input type="email" id="forgotEmail" class="form-control mb-2" placeholder="Registered Email">
+                    <input type="password" id="forgotPassword" class="form-control mb-2" placeholder="New Password">
+                    <input type="password" id="forgotConfirmPassword" class="form-control mb-2"
+                        placeholder="Confirm New Password">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" id="forgotSubmit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Scripts -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/crypto-js.min.js"></script>
+    <script src="assets/js/encrypt_decrypt.js"></script>
+    <script src="assets/js/apiConfig.js"></script>
+    <script type="text/javascript" src="assets/js/footerData.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            function showSuccessToast(message) {
+                $("#successMessage").text(message);
+                new bootstrap.Toast(document.getElementById("successToast"), { delay: 3000 }).show();
+            }
+
+            function showErrorToast(message) {
+                $("#errorMessage").text(message);
+                new bootstrap.Toast(document.getElementById("errorToast"), { delay: 3000 }).show();
+            }
+
+            // Captcha generator (same as before)
+            function generateCaptcha() {
+                const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                let captcha = "";
+                for (let i = 0; i < 6; i++) captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+                $("#captchaCode").text(captcha);
+            }
+            $("#refreshCaptcha").click(generateCaptcha);
+            generateCaptcha();
+            $("#forgotSubmit").click(async function () {
+                const username = $("#forgotUsername").val().trim();
+                const email = $("#forgotEmail").val().trim();
+                const password = $("#forgotPassword").val().trim();
+                const confirmPassword = $("#forgotConfirmPassword").val().trim();
+
+                if (!username || !email || !password || !confirmPassword) {
+                    showErrorToast("All fields are required.");
+                    return;
+                }
+
+                if (password !== confirmPassword) {
+                    showErrorToast("Passwords do not match.");
+                    return;
+                }
+
+                const payload = {
+                    action: "function_call",
+                    function_name: "forget_password_fn",
+                    params: {
+                        p_user_name: username,
+                        p_email: email,
+                        p_password: password,
+                        p_confirm_password: confirmPassword
+                    }
+                };
+
+                try {
+                    const response = await $.ajax({
+                        url: `${BASE_API_URL}/commonfunction`,
+                        method: "POST",
+                        headers: {
+                            "X-APP-Key": "tnreat",
+                            "X-APP-Name": "tnreat"
+                        },
+                        data: {
+                            data: encryptData(payload)
+                        },
+                        dataType: "json",
+                    });
+
+                    const decrypted = decryptData(response?.data || "");
+                    if (Array.isArray(decrypted) && (decrypted[0]?.result === true || decrypted[0]?.result === "SUCCESS")) {
+                        showSuccessToast("Password reset successfully.");
+                        $("#forgotPasswordModal").modal("hide");
+                    } else {
+                        const message = decrypted[0]?.message || "Invalid details. Please try again.";
+                        showErrorToast(message);
+                    }
+
+                } catch (error) {
+                    showErrorToast("Server error. Please try again.");
+                }
+            });
+            async function handleLogin() {
+                const username = $("#P9999_USERNAME").val();
+                const password = $("#P9999_PASSWORD").val();
+                const enteredCaptcha = $("#captchaInput").val().trim().toUpperCase();
+                const actualCaptcha = $("#captchaCode").text().trim();
+
+                if (!username || !password) {
+                    showErrorToast("Please enter both username and password");
+                    return;
+                }
+
+                if (enteredCaptcha !== actualCaptcha) {
+                    showErrorToast("Invalid captcha. Please try again.");
+                    generateCaptcha();
+                    $("#captchaInput").val("");
+                    return;
+                }
+
+                // Build API payload
+                const payload = {
+                    action: "function_call",
+                    function_name: "user_login_fn",
+                    params: {
+                        p_user: username,
+                        p_password: password
+                    }
+                };
+
+                try {
+                    const response = await $.ajax({
+                        url: `${BASE_API_URL}/commonfunction`,
+                        method: "POST",
+                        headers: {
+                            "X-APP-Key": "tnreat",
+                            "X-APP-Name": "tnreat"
+                        },
+                        data: {
+                            data: encryptData(payload)
+                        },
+                        dataType: "json",
+                    });
+
+                    const decrypted = decryptData(response?.data || "");
+                    console.log(decrypted[0]?.result);
+                    if (
+                        Array.isArray(decrypted) &&
+                        (
+                            decrypted[0]?.result === true ||
+                            decrypted[0]?.result === "SUCCESS"
+                        )
+                    ) {
+                        showSuccessToast("Login Successful");
+                        localStorage.setItem("operatorId", username);
+                        const secretKey = "55464654654646654";
+                        // Encrypt the object: first stringify it, then encrypt
+                        let encryptedData = CryptoJS.AES.encrypt(
+                            JSON.stringify(response.data),
+                            secretKey
+                        ).toString();
+                        // Redirect to another page or take further actions based on user data
+                        localStorage.setItem("userDetails", encryptedData);
+                        setTimeout(() => { window.location.href = "index.html"; }, 1000);
+                    } else {
+                        const msg = decrypted[0]?.result || "Invalid login. Please try again.";
+                        showErrorToast(msg);
+                        generateCaptcha();
+                        $("#captchaInput").val("");
+                    }
+                } catch (error) {
+                    showErrorToast("Server error. Please try again.");
+                    generateCaptcha();
+                    $("#captchaInput").val("");
+                }
+            }
+
+            $("#loginButton").click(handleLogin);
+            $("#P9999_USERNAME, #P9999_PASSWORD, #captchaInput").on("keydown", function (e) {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    $("#loginButton").click();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

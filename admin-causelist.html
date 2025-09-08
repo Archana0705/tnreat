@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html class="no-js  page-19 app-TNREAT-NEW121" lang="en">
+
+<head>
+  <meta http-equiv="x-ua-compatible" content="IE=edge" />
+  <meta charset="utf-8">
+  <title>CAUSE LIST-ADMIN</title>
+  <link rel="stylesheet" type="text/css" href="assets/css/Core.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/Theme-Standard.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/font-apex.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/Core.mintheme.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/aos.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/custom.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/Vita.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="apple-touch-icon" href="assets/img/app-icon-192.png" />
+  <link rel="icon" href="assets/img/app-icon-32.png" />
+  <link href="assets/vendor/datatable/css/dataTables.css" rel="stylesheet">
+  <!-- sweetalert -->
+  <link href="assets/vendor/sweetalert2/css/sweetalert2.min.css" rel="stylesheet" />
+  <!-- multiselect -->
+  <link href="assets/vendor/multiselect/css/multiselect.min.css" rel="stylesheet" />
+  <!-- CSS File -->
+  <link rel="stylesheet" href="assets/vendor/datatable/dataTables.bootstrap5.min.css">
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/toastr/toastr.min.css" rel="stylesheet">
+  <style type="text/css">
+    td {
+      border: 1px solid #e6e6e6;
+    }
+
+    #grievanceTable tbody td:nth-child(5) {
+      display: contents;
+    }
+
+    .toast-container {
+      right: 0.5%;
+    }
+
+    #successToast {
+      background: #198754 !important;
+    }
+
+    #errorToast {
+      background: #ff0000 !important;
+    }
+
+    h1.text-middle {
+      font-size: 28px;
+      margin-top: 2rem;
+      margin-bottom: 15px;
+    }
+
+    .top.row {
+      width: 75%;
+      margin: 50px auto 20px auto;
+    }
+
+    @font-face {
+      font-family: 'FontApex';
+      src: url('../font/apex-5-icon-font.woff2') format('woff2'),
+        url('../font/apex-5-icon-font.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Font-APEX';
+      src: url('../fonts/Font-APEX-Small.woff2') format('woff2'),
+        url('../fonts/Font-APEX-Small.woff') format('woff'),
+        url('../fonts/Font-APEX-Large.woff2') format('woff2'),
+        url('../fonts/Font-APEX-Large.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+  </style>
+
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="theme-color" content="&#x23;000000" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="TNREAT&#x20;NEW" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="manifest"
+    href="manifest.json_%3b%20filename_%3dUTF-8%27%27manifest6940.json?v=23.2.1-135888900&amp;lang=en"
+    crossorigin="use-credentials" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Toast -->
+  <div class="toast-container position-fixed p-3 custom_toast" x-data="transButtonComponent()">
+    <div id="errorToast" class="toast align-items-center text-bg-primary border-0 " role="alert" aria-live="assertive"
+      aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          <p id="errorMessage" class="mb-0"></p>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+          aria-label="Close"></button>
+      </div>
+    </div>
+    <div id="successToast" class="toast align-items-center text-bg-primary border-0 " role="alert" aria-live="assertive"
+      aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          <p id="successMessage" class="mb-0"></p>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+          aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+  <!-- Toast -->
+</head>
+
+<body
+  class="t-PageBody t-PageBody--hideLeft t-PageBody--hideActions no-anim t-PageTemplate--standard   apex-top-nav apex-icons-fontapex apex-theme-vita"
+  id="t_PageBody">
+  <a href="#main" id="t_Body_skipToContent">Skip to Main Content</a>
+  <form role="none" action="wwv_flow.accept?p_context=tnreat-new121/home/6730303489428" method="post" name="wwv_flow"
+    id="wwvFlowForm" data-oj-binding-provider="none" novalidate autocomplete="off">
+    <input type="hidden" name="p_flow_id" value="121" id="pFlowId" /><input type="hidden" name="p_flow_step_id"
+      value="1" id="pFlowStepId" /><input type="hidden" name="p_instance" value="6730303489428" id="pInstance" /><input
+      type="hidden" name="p_page_submission_id" value="114851042805032069592565102221369745713"
+      id="pPageSubmissionId" /><input type="hidden" name="p_request" value="" id="pRequest" /><input type="hidden"
+      name="p_reload_on_submit" value="S" id="pReloadOnSubmit" /><input type="hidden"
+      value="tnreat-new121&#x2F;home&#x2F;6730303489428" id="pContext" /><input type="hidden"
+      value="114851042805032069592565102221369745713" id="pSalt" />
+    <header class="t-Header" id="t_Header" role="banner">
+      <div class="top-header">
+        <div class="gigw">
+          <li><a data-aos="fade-up" data-aos-delay="200" class="btn-decrease"><span class="d-inline-block" tabindex="0"
+                data-toggle="tooltip" title="font size Decrease"><i></i> A -</a></li>
+          <li><a data-aos="fade-up" data-aos-delay="300" class="btn-orig"><span class="d-inline-block" tabindex="0"
+                data-toggle="tooltip" title="Reset font"><i></i> A </a></li>
+          <li><a data-aos="fade-up" data-aos-delay="400" class="btn-increase"><span class="d-inline-block" tabindex="0"
+                data-toggle="tooltip" title="font size Increase"><i></i> A +</a></li>
+          <li><a data-aos="fade-up" data-aos-delay="500"><span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                title="Dark Mode"><i class="t-Icon fa fa-moon-o" id="darkmode"></i></a></li>
+          <li><a data-aos="fade-up" data-aos-delay="600" class="form-check form-switch"><label class="form-check-label"
+                for="screenReaderSwitch">
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Screen Reader">
+                  <i id="sound" class="t-Icon fa fa-volume-up"></i></label><input class="form-check-input"
+                type="checkbox" role="switch" id="screenReaderSwitch"
+                onclick="readText(document.getElementsByTagName('body')[0])" /></span></a>
+          </li>
+        </div>
+        <div class="top row">
+          <div class="col-2 text-right"><img id="leftlogo" src="assets/img/LOGO.png"></div>
+          <div class="col-8">
+            <h3 class="dept-name2 text-middle">TAMIL NADU REAL ESTATE APPELLATE TRIBUNAL [TNREAT]</h3>
+            <h2 class="dept-name text-middle">தமிழ்நாடு கட்டிட மனை விற்பனை மேல்முறையீட்டு தீர்ப்பாயம்</h2>
+          </div>
+          <div class="col-2 text-right"><img id="rightlogo" src="assets/img/LogoTamil.png">
+          </div>
+        </div>
+
+        <header-component></header-component>
+      </div>
+      <!--  -->
+      <!-- <div class="t-Header-branding"> -->
+      <!-- <div class="t-Header-controls">
+          <button class="t-Button t-Button--icon t-Button--header t-Button--headerTree" aria-label="Main Navigation" title="Main Navigation" id="t_Button_navControl" type="button"><span class="t-Header-controlsIcon" aria-hidden="true"></span></button>
+          </div> 
+          <div class="t-Header-logo">
+          <a href="&#x2F;ords&#x2F;r&#x2F;wstnreat&#x2F;tnreat-new121&#x2F;home" class="t-Header-logo-link"><span class="apex-logo-text">TNREAT NEW</span></a>
+          
+          </div> -->
+      <div class="t-Header-navBar">
+        <!-- <div class="t-Header-navBar--start"></div> -->
+        <div class="t-Header-navBar--center" id="signInSignOut">
+          <ul class="t-NavigationBar " id="50807758002483952">
+            <li class="t-NavigationBar-item a-pwaInstall">
+              <a class="t-Button t-Button--icon t-Button--header t-Button--navBar" href="#action$a-pwa-install" title=""
+                target="">
+                <span class="t-Icon fa&#x20;fa-cloud-download" aria-hidden="true"></span><span
+                  class="t-Button-label">Install App</span><span class="t-Button-badge"></span>
+              </a>
+            </li>
+            <li class="t-NavigationBar-item ">
+              <a class="t-Button t-Button--icon t-Button--header t-Button--navBar" href="login218d.html" title=""
+                target="">
+                <span class="t-Icon fa&#x20;fa-box-arrow-in-east" aria-hidden="true"></span><span class="t-Button-label"
+                  id="signInLabel">Sign in</span><span class="t-Button-badge"></span>
+              </a>
+            </li>
+
+
+            <li class="t-NavigationBar-item is-active">
+              <button id="langToggle" class="t-Button t-Button--icon t-Button--header t-Button--navBar">
+                <span class="t-Icon" aria-hidden="true"></span>
+                <span class="t-Button-label">தமிழ்</span>
+                <span class="t-Button-badge"></span>
+              </button>
+            </li>
+            <!-- <li class="t-NavigationBar-item is-active " aria-current="page">
+                <a class="t-Button t-Button--icon t-Button--header t-Button--navBar" href="HOME218d-2.html?fsp_language_preference=en&amp;request=LANG&amp;session=6730303489428&amp;cs=1OVNwsnokvPNSPZM-E4btVRChw9aB7fbqrGVu5l-gDbnNMPm6ugEcdZe8bzuwsVdGbOdh-q8aefNHquPN-rn5XQ" title="" target="">
+                <span class="t-Icon " aria-hidden="true" ></span><span class="t-Button-label">ENGLISH</span><span class="t-Button-badge"></span>
+                </a>
+              </li>
+              <li class="t-NavigationBar-item is-active " aria-current="page">
+                <a class="t-Button t-Button--icon t-Button--header t-Button--navBar" href="HOME218d-2.html?fsp_language_preference=ta&amp;request=LANG&amp;session=6730303489428&amp;cs=1pcLUBAekKO1_DyprDklRO64KqZAWJkAntR4EqyKsEVPKot8hteaZYBMw18iSXZSBvzexLNomH08MdD2_ZLRePg" title="" target="">
+                <span class="t-Icon " aria-hidden="true" ></span><span class="t-Button-label">தமிழ்</span><span class="t-Button-badge"></span>
+                </a>
+              </li>
+              <li class="t-NavigationBar-item ">
+                <a class="t-Button t-Button--icon t-Button--header t-Button--navBar" href="login218d.html" title="" target="">
+                <span class="t-Icon " aria-hidden="true" ></span><span class="t-Button-label">Meeting [0]</span><span class="t-Button-badge"></span>
+                </a>
+              </li> -->
+
+            <li class="t-NavigationBar-item ">
+              <a id="meetingButton" class="t-Button t-Button--icon t-Button--header t-Button--navBar"
+                href="admin-virtual-meeting-report.html" title="" target="">
+                <span class="t-Icon" aria-hidden="true"></span><span class="t-Button-label">Meeting [0]</span><span
+                  class="t-Button-badge"></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <!-- <div class="t-Header-navBar--end"></div> -->
+      </div>
+      <!-- </div>  -->
+      <!-- <div class="t-Header-nav"></div> -->
+    </header>
+    <!-- <img src="r/wstnreat/121/files/static/v341/bg.png" id="background-pic"> -->
+    <div class="t-Body">
+      <div class="t-Body-main">
+        <div class="t-Body-title" id="t_Body_title"></div>
+        <div class="t-Body-content" id="t_Body_content">
+          <main id="main" class="t-Body-mainContent">
+            <span id="APEX_SUCCESS_MESSAGE" data-template-id="51052827884996374_S"
+              class="apex-page-success u-hidden"></span><span id="APEX_ERROR_MESSAGE"
+              data-template-id="51052827884996374_E" class="apex-page-error u-hidden"></span>
+            <div class="t-Body-fullContent">
+              <div class="container-fluid">
+                <div class="wrap">
+                  <div class="col col-12 apex-col-auto col-start col-end">
+                    <div class="container">
+                      <div class="row ">
+                        <div class="col col-12 apex-col-auto col-start col-end">
+                          <h1 class="text-middle" data-i18n="admin-causelist">CAUSE LIST-ADMIN</h1>
+                        </div>
+                      </div>
+                      <div class="row ">
+                        <div class="col col-12 apex-col-auto col-start col-end">
+                          <div role="region" class="a-IRR-buttons" style="justify-content: flex-end;"><button
+                              data-bs-toggle="modal" data-bs-target=".addmodal" style="background-color: #08096e;"
+                              class="t-Button t-Button--hot js-ignoreChange" type="button"><span
+                                class="t-Button-label text-white">Create</span></button></div>
+                        </div>
+
+
+                        <div class="col col-12 apex-col-auto col-start col-end">
+
+                          <table class="table" id="grievanceTable">
+                            <thead>
+                              <tr>
+                                <th scope="col">S.No</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Download</th>
+                                <th scope="col">Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <!-- Data will be dynamically inserted here -->
+                            </tbody>
+                          </table>
+
+
+                        </div>
+
+
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="t-Body-contentInner"><input type="hidden" name="P0_LANGUAGE" id="P0_LANGUAGE" value="en"></div>
+          </main>
+          <footer class="t-Footer" id="t_Footer" role="contentinfo">
+            <div class="t-Footer-body">
+              <div class="t-Footer-content">
+                <div class="container">
+                  <div class="row pad">
+                    <div class="col col-12 apex-col-auto col-start col-end">
+                      <div class="container">
+                        <div class="row ">
+                          <div class="col col-6 apex-col-auto col-start">
+                            <div class="t-Region container-footer-left  t-Region--hideHeader t-Region--scrollBody"
+                              id="R80721427978586319" role="region" aria-label="New">
+                              <div class="t-Region-header">
+                                <div class="t-Region-headerItems t-Region-headerItems--title">
+                                  <span class="t-Region-headerIcon"><span class="t-Icon "
+                                      aria-hidden="true"></span></span>
+                                  <h2 class="t-Region-title" id="R80721427978586319_heading" data-apex-heading>New</h2>
+                                </div>
+                                <div class="t-Region-headerItems t-Region-headerItems--buttons"><span
+                                    class="js-maximizeButtonContainer"></span></div>
+                              </div>
+                              <div class="t-Region-bodyWrap">
+                                <div class="t-Region-buttons t-Region-buttons--top">
+                                  <div class="t-Region-buttons-left"></div>
+                                  <div class="t-Region-buttons-right"></div>
+                                </div>
+                                <div class="t-Region-body">
+                                  <div class="t-Region-orderBy"></div>
+                                  <a-dynamic-content id="visitorCount">
+                                    Website Visitor count : 2626</a-dynamic-content>
+                                </div>
+                                <div class="t-Region-buttons t-Region-buttons--bottom">
+                                  <div class="t-Region-buttons-left"></div>
+                                  <div class="t-Region-buttons-right"></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col col-6 apex-col-auto col-end">
+                            <div class="t-Region container-footer-right  t-Region--hideHeader t-Region--scrollBody"
+                              id="R62558702238230709" role="region" aria-label="New">
+                              <div class="t-Region-header">
+                                <div class="t-Region-headerItems t-Region-headerItems--title">
+                                  <span class="t-Region-headerIcon"><span class="t-Icon "
+                                      aria-hidden="true"></span></span>
+                                  <h2 class="t-Region-title" id="R62558702238230709_heading" data-apex-heading>New</h2>
+                                </div>
+                                <div class="t-Region-headerItems t-Region-headerItems--buttons"><span
+                                    class="js-maximizeButtonContainer"></span></div>
+                              </div>
+                              <div class="t-Region-bodyWrap">
+                                <div class="t-Region-buttons t-Region-buttons--top">
+                                  <div class="t-Region-buttons-left"></div>
+                                  <div class="t-Region-buttons-right"></div>
+                                </div>
+                                <div class="t-Region-body">
+                                  <div class="t-Region-orderBy"></div>
+                                  <a-dynamic-content id="lastUpdated">
+                                    Last updated on : 12-08-2024
+                                  </a-dynamic-content>
+                                </div>
+                                <div class="t-Region-buttons t-Region-buttons--bottom">
+                                  <div class="t-Region-buttons-left"></div>
+                                  <div class="t-Region-buttons-right"></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="t-Footer-apex">
+
+                <div class="sub-footer">
+
+                  <div class="sub-footer-col sub-footer-col-office">
+                    <h5>Office</h5>
+                    <span aria-hidden="true" class="fa fa-university fa-2x fa-lg"></span>
+                    <p><span class="strng">Tamil Nadu Real Estate Appellate Tribunal (TNREAT),</span><br>
+                      No.1A, 2<sup>nd</sup> Floor, Gandhi Irwin Bridge Road, CMDA Tower-II, Egmore, Chennai – 600008.
+                    </p>
+                    <p><span class="strng">தமிழ்நாடு கட்டிட மனை விற்பனை மேல்முறையீட்டு தீர்ப்பாயம்,<br>
+                        எண்.1A, 2வது தளம், காந்தி இர்வின் பாலம் சாலை, சி.எம்.டி.எ. கோபுரம் - II,<br> எழும்பூர், சென்னை –
+                        600008.
+                    </p>
+                    <div><a href="mailto:contact.tnreat.tn.gov.in"
+                        class="links">contact[dot]tnreat[at]tn[dot]gov[dot]in</a></div>
+                    <div><a href="tel:04428414867" class="links"> +044 28414867</a></div>
+                  </div>
+                  <div class="sub-footer-col sub-footer-col-locateus">
+                    <h5>Locate us</h5>
+                    <iframe class="gmap"
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.343232546412!2d80.26240157600506!3d13.077420187247768!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5267c0802829c7%3A0xcae7859d2b14484c!2sTNRERA!5e0!3m2!1sen!2sin!4v1701934404900!5m2!1sen!2sin"
+                      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                      view-mode="satelite">
+                    </iframe>
+                  </div>
+                </div>
+                <hr>
+                <div class="main-footer">
+                  <div class="main-footer-dtls">
+                    <img class="footer-logo" src="assets/img/LOGO.png">
+                    <p class="text-middle">Content owned by TAMIL NADU REAL ESTATE APPELLATE TRIBUNAL</p>
+                  </div>
+                  <div class="main-footer-dtls">
+                    <img class="footer-logo" src="assets/img/LogoTamil.png">
+                    <p class="text-middle">Designed and Developed by Tamil Nadu e-Governance Agency</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="t-Footer-top">
+              <a href="#top" class="t-Footer-topButton" id="t_Footer_topButton" title="Start of page"
+                aria-label="Start of page"><span class="a-Icon icon-up-chevron" aria-hidden="true"></span></a>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </div>
+    <div class="t-Body-inlineDialogs" id="t_Body_inlineDialogs"></div>
+    <input type="hidden" id="pPageFormRegionChecksums" value="&#x5B;&#x5D;">
+    <input type="hidden" id="pPageItemsRowVersion" value="" /><input type="hidden" id="pPageItemsProtected"
+      value="&#x2F;gmuUsTGrClWlWkkPstGkQa2Mxfq9IXr8DVnJu0D9YuMfvW9lGGhyDYAFGh4JYwdJ7_ldOPjz2P4XDSQbnB4csg" />
+  </form>
+
+  <!-- add modal -->
+  <div class="modal fade addmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header py-2">
+          <h5 class="modal-title" id="exampleModalLabel">Cause list upload</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-2">
+          <form id="notificationForm">
+            <div class="mb-2">
+              <label for="date" class="form-label">Date</label>
+              <input type="date" class="form-control" id="date" required>
+            </div>
+            <div class="mb-2">
+              <label for="file" class="form-label">Upload</label>
+              <input type="file" class="form-control" id="file" required>
+              <small id="fileError" class="text-danger d-none"></small> <!-- For error message -->
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer py-2">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success" id="createBtn">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- add modal -->
+
+  <!-- edit modal -->
+  <div class="modal fade editmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header py-2">
+          <h5 class="modal-title" id="exampleModalLabel">Update Cause list upload</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-2">
+          <form id="editNotificationForm">
+            <div class="mb-2">
+              <label for="editDate" class="form-label">Date</label>
+              <input type="date" class="form-control" id="editDate" required>
+            </div>
+            <div class="mb-2">
+              <label for="editFile" class="form-label">Upload</label>
+              <input type="file" class="form-control" id="editFile">
+              <small id="editFileError" class="text-danger d-none"></small> <!-- Error message -->
+              <span id="filenameDisplay" class="mt-2"></span> <!-- Filename display -->
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer py-2">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success" id="updateBtn">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- edit modal -->
+
+  <!-- delete modal -->
+  <div class="modal fade deletemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header py-2">
+          <h1 class="modal-title fs-5">Delete Information</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-2">
+          <h5 class="text-center">Are you sure you want to delete this information?</h5>
+        </div>
+        <div class="modal-footer py-2">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          <!-- Modify this delete button -->
+          <button type="button" class="btn btn-success" id="deleteBtn" data-bs-dismiss="modal">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- delete modal -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <script type="module" src="assets/js/nav-component.js"></script>
+  <script src="language.js"></script>
+
+  <script src="assets/js/desktop_all.min.js"></script>
+  <script src="assets/js/widget.stickyWidget.min.js"></script>
+  <script src="assets/js/theme42.min.js"></script>
+  <script src="assets/js/add.min.js"></script>
+  <script type="text/javascript" src="assets/js/aos.js"></script>
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Include DataTables and Buttons JS -->
+  <script src="assets/vendor/datatable/jquery.dataTables.min.js"></script>
+  <script src="assets/vendor/datatable/dataTables.bootstrap5.min.js"></script>
+  <script src="assets/vendor/datatables-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="assets/vendor/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+  <script src="assets/vendor/datatables-buttons/js/jszip.min.js"></script>
+  <script src="assets/vendor/datatables-buttons/js/pdfmake.min.js"></script>
+  <script src="assets/vendor/datatables-buttons/js/vfs_fonts.js"></script>
+  <script src="assets/vendor/datatables-buttons/js/buttons.html5.min.js"></script>
+  <script src="assets/vendor/datatables-buttons/js/buttons.print.min.js"></script>
+  <script src="assets/vendor/datatables-buttons/js/buttons.colVis.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/crypto-js.min.js"></script>
+  <script src="assets/js/apiConfig.js"></script>
+  <script src="assets/js/encrypt_decrypt.js"></script>
+  <script type="text/javascript" src="assets/js/footerData.js"></script>
+
+  <script type="text/javascript">
+    apex.jQuery(function () {
+      apex.page.init(this, function () {
+        try {
+          (function () {
+            var e = apex.jQuery("#t_MenuNav", apex.gPageContext$);
+            if (e.hasClass("js-addActions")) {
+              apex.actions.addFromMarkup(e);
+            }
+            e.menu({
+              behaveLikeTabs: e.hasClass("js-tabLike"),
+              menubarShowSubMenuIcon: e.hasClass("js-showSubMenuIcons") || null,
+              menubar: true,
+              menubarOverflow: true,
+              callout: e.hasClass("js-menu-callout")
+            });
+          })();
+        } catch (e) { apex.debug.error(e) };
+        apex.item.waitForDelayLoadItems().done(function () {
+          try {
+            (function () {
+              apex.da.initDaEventList();
+              apex.da.init();
+            })();
+            apex.theme42.initializePage.noSideCol();
+
+            apex.page.warnOnUnsavedChanges();
+          } finally {
+            apex.event.trigger(apex.gPageContext$, 'apexreadyend');
+          };
+        });
+      });
+    }); apex.pwa.init({ serviceWorkerPath: '\u002Fords\u002Fr\u002Fwstnreat\u002Ftnreat-new121\u002Fsw.js?v=23.2.1-135888900\u0026lang=en' });
+  </script>
+  <script>
+    AOS.init();
+    $(document).ready(function () {
+      // Retrieve the encrypted data from localStorage
+      let encryptedDataFromStorage = localStorage.getItem('userDetails');
+      let decryptedData;
+      if (encryptedDataFromStorage) {
+        const secretKey = '55464654654646654';
+        const bytes = CryptoJS.AES.decrypt(encryptedDataFromStorage, secretKey);
+        decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+      } else {
+        console.log('No data found in localStorage');
+      }
+
+      var signInSignOut = $('#signInSignOut');
+      var signInLabel = $('#signInLabel');
+      var adminMenu = $('.a-MenuBar-item:contains("ADMINISTRATION")');
+      var meetingButton = $('#meetingButton');
+      if (decryptedData) {
+        signInLabel.text('Sign out');
+        signInSignOut.find('a').eq(0).on('click', function (event) {
+          event.preventDefault();
+          localStorage.removeItem('userDetails');
+          window.location.href = "index.html";
+          window.location.replace("index.html");
+        });
+        const user = JSON.parse(decryptedData);
+        if (user.role == 'ADMIN') {
+          adminMenu.show();
+        } else {
+          adminMenu.hide();
+          meetingButton.hide();
+        }
+      } else {
+        signInLabel.text('Sign in');
+        adminMenu.hide();
+        meetingButton.hide();
+      }
+      if (!decryptedData) {
+        adminMenu.find('ul').hide();
+        window.location.href = "index.html";
+        window.location.replace("index.html");
+      }
+
+      // Function to show a success toast with a dynamic message
+      function showSuccessToast(message) {
+        const toastElement = document.getElementById('successToast');
+        const toastBody = document.getElementById('successMessage');
+
+        // Set the dynamic message
+        toastBody.textContent = message;
+
+        // Initialize and show the toast
+        const toast = new bootstrap.Toast(toastElement, {
+          autohide: true,
+          delay: 3000
+        });
+        toast.show();
+      }
+      // Function to show a error toast with a dynamic message
+      function showErrorToast(message) {
+        const toastElement = document.getElementById('errorToast');
+        const toastBody = document.getElementById('errorMessage');
+
+        // Set the dynamic message
+        toastBody.textContent = message;
+
+        // Initialize and show the toast
+        const toast = new bootstrap.Toast(toastElement, {
+          autohide: true,
+          delay: 3000
+        });
+        toast.show();
+      }
+      // Fetch data from the API
+      // $.ajax({
+      //   url: `${BASE_API_URL}/admin/cause_list_admin`,
+      //   method: 'GET',
+      //   success: function (response) {
+      //     // Assuming 'data' is an array of objects from the API
+      //     const tableData = response.data;
+      //     const tableBody = $('#grievanceTable tbody');
+      //     let rowIndex = 1; // Start with S.No 1
+
+      //     // Loop through the API data and populate the table
+      //     tableData.forEach(item => {
+      //       let newRow = `<tr>
+      //                   <td>${rowIndex}</td>
+      //                   <td>${item.the_date}</td>
+      //                   <td><a href="javascript:void(0);" class="download-btn" data-download="${item.download}" data-mimetype="${item.mimetype} data-filename="${item.filename}" target="_blank">Download</a></td>
+      //                   <td>
+      //                     <a data-bs-toggle="modal" data-bs-target=".editmodal" class="btn edit-btn" data-date="${item.the_date}" data-filename="${item.filename}" data-mimetype="${item.mimetype}" data-serial_number="${item.serial_number}" href="#" title="Edit"><i class="bi bi-pencil"></i></a>
+      //                     <a data-bs-toggle="modal" data-bs-target=".deletemodal" class="btn delete-btn" data-serial_number="${item.serial_number}" href="#" title="Delete"><i class="bi bi-trash"></i></a>
+      //                   </td>
+      //               </tr>`;
+
+      //       tableBody.append(newRow);
+      //       rowIndex++;
+      //     });
+
+      //     // Initialize DataTable
+      //     $('#grievanceTable').DataTable({
+      //       paging: true,        // Enable pagination
+      //       searching: true,     // Enable search box
+      //       ordering: true,      // Enable sorting
+      //       order: [[0, 'asc']], // Default sorting by Serial No. column (ascending)
+      //       columnDefs: [
+      //         { targets: '_all', orderable: true }, // Enable sorting for all columns
+      //       ],
+      //       responsive: true,    // Make the table responsive
+      //       dom: 'lfrtip',        // Use the basic table layout with search, table, info, and pagination
+      //     });
+      //     $(document).on('click', '.download-btn', function () {
+      //       const fileBase64 = $(this).data('download');
+      //       const fileName = $(this).data('filename');
+      //       const fileMimeType = $(this).data('mimetype');
+      //       if (fileMimeType.startsWith("image")) {
+      //         // If the file is an image (JPEG, JPG, PNG, etc.)
+      //         openImageInNewPage(fileBase64, fileName, fileMimeType);
+      //       } else if (fileMimeType.startsWith("application")) {
+      //         // If the file is a PDF
+      //         openPdfInNewPage(fileBase64, fileName);
+      //       } else if (fileMimeType.startsWith("text")) {
+      //         // If the file is a text file
+      //         openTextInNewPage(fileBase64, fileName);
+      //       } else {
+      //         console.error("Unknown MIME type: ", fileMimeType);
+      //       }
+      //     });
+      //   },
+      //   error: function (xhr, status, error) {
+      //     showErrorToast("Something went wrong");
+      //     console.error('Error fetching data: ', error);
+      //   }
+      // });
+
+      $.ajax({
+        url: `${BASE_API_URL}/admin/cause_list_admin`,
+        method: 'GET',
+        headers: {
+          "X-APP-Key": "tnreat",
+          "X-APP-Name": "tnreat"
+        },
+        success: function (response) {
+          const tableData = response.data;
+          const tableBody = $('#grievanceTable tbody');
+          let rowIndex = 1;
+
+          tableData.forEach(item => {
+            let newRow = `<tr>
+        <td>${rowIndex}</td>
+        <td>${item.the_date}</td>
+        <td>
+          <a href="javascript:void(0);" 
+             class="download-btn" 
+             data-download="${item.filename}" 
+             data-mimetype="${item.mimetype}" 
+             data-filename="${item.filename}">
+             Download
+          </a>
+        </td>
+        <td>
+          <a data-bs-toggle="modal" data-bs-target=".editmodal" class="btn edit-btn"
+             data-date="${item.the_date}" 
+             data-filename="${item.filename}" 
+             data-mimetype="${item.mimetype}" 
+             data-serial_number="${item.serial_number}" 
+             href="#" title="Edit"><i class="bi bi-pencil"></i></a>
+          <a data-bs-toggle="modal" data-bs-target=".deletemodal" class="btn delete-btn" 
+             data-serial_number="${item.serial_number}" 
+             href="#" title="Delete"><i class="bi bi-trash"></i></a>
+        </td>
+      </tr>`;
+
+            tableBody.append(newRow);
+            rowIndex++;
+          });
+
+          $('#grievanceTable').DataTable({
+            paging: true,
+            searching: true,
+            ordering: true,
+            order: [[0, 'asc']],
+            columnDefs: [{ targets: '_all', orderable: true }],
+            responsive: true,
+            dom: 'lfrtip',
+          });
+
+          $(document).on('click', '.download-btn', function () {
+            const filePath = $(this).data('download'); // e.g., "uploads/test.pdf"
+            const fileName = $(this).data('filename');
+            const mimeType = $(this).data('mimetype');
+
+            if (!filePath || !fileName) {
+              alert("Missing file data!");
+              return;
+            }
+
+            // Ensure full URL
+            let fileUrl = filePath;
+            if (!fileUrl.startsWith("http")) {
+              fileUrl = BASE_UPLOAD_URL + filePath.replace(/^uploads\//, "");
+            }
+            fileUrl = encodeURI(fileUrl);
+
+            // Open in new tab for viewable types
+            if (mimeType && (mimeType.includes('pdf') || mimeType.includes('image'))) {
+              window.open(fileUrl, '_blank');
+            } else {
+              const a = document.createElement('a');
+              a.href = fileUrl;
+              a.download = fileName;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+            }
+          });
+
+
+        },
+        error: function (xhr, status, error) {
+          showErrorToast("Something went wrong");
+          console.error('Error fetching data: ', error);
+        }
+      });
+
+      $('#createBtn').click(function () {
+        const user = JSON.parse(decryptedData);
+
+        // Get form values
+        const date = $('#date').val().trim();
+        const fileInput = $('#file')[0];
+        const file = fileInput.files[0];
+
+        // Validate form data
+        if (!date || !file) {
+          showErrorToast("Please fill in all fields.");
+          return;
+        }
+
+        // File validation
+        const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'text/plain'];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+
+        if (!validTypes.includes(file.type)) {
+          $('#fileError')
+            .text("Invalid file type. Supported file types: .pdf, .jpg, .jpeg, .txt.")
+            .removeClass('d-none');
+          return;
+        } else {
+          $('#fileError').addClass('d-none');
+        }
+
+        if (file.size > maxSize) {
+          $('#fileError')
+            .text("File size exceeds the 5MB limit.")
+            .removeClass('d-none');
+          return;
+        } else {
+          $('#fileError').addClass('d-none');
+        }
+
+        // Prepare FormData (instead of Base64)
+        const formData = new FormData();
+        formData.append('cause_date', date);
+        formData.append('file', file);
+        formData.append('filename', file.name);
+        formData.append('MIMETYPE', file.type);
+        formData.append('created_by', user.role);
+        formData.append('updated_by', user.role);
+
+        $.ajax({
+          url: `${BASE_API_URL}/admin/access/cause_insert`,
+          type: 'POST',
+          headers: {
+            "X-APP-Key": "tnreat",
+            "X-APP-Name": "tnreat"
+          },
+          data: formData,
+          processData: false, // prevent jQuery from processing
+          contentType: false, // prevent jQuery from overriding content type
+          success: function (response) {
+            if (response.success) {
+              showSuccessToast("Cause created Successfully");
+              $('#notificationForm')[0].reset();
+              $('#fileError').addClass('d-none');
+              setTimeout(() => location.reload(), 1000);
+            } else {
+              console.log("Error: " + response.message);
+            }
+          },
+          error: function (xhr, status, error) {
+            console.log('Error:', error);
+          }
+        });
+      });
+
+      // When the Edit button is clicked, populate the modal
+      $(document).on('click', '.edit-btn', function () {
+        console.log("edit clicked")
+        // Get the data attributes
+        const date = $(this).data('date');
+        const filename = $(this).data('filename') ? $(this).data('filename') : 'No file chosen';
+        const serial_number = $(this).data('serial_number');
+
+        // Convert date format if necessary
+        const formattedDate = formatDate(date);
+        $('#editDate').val(formattedDate);                 // Set date
+        $('#filenameDisplay').text(filename);
+        // Store the serial number (ID) for later use in the update request
+        $('#updateBtn').data('id', serial_number);
+      });
+      // When the Update button is clicked
+      $('#updateBtn').on('click', function () {
+        const date = $('#editDate').val().trim();
+        const serial_number = $(this).data('id');
+        const fileInput = $('#editFile')[0];
+        const file = fileInput.files[0];
+
+        if (!date) {
+          showErrorToast("Please fill in all fields.");
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("date", date);
+        formData.append("serial_number", serial_number);
+
+        if (file) {
+          const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'text/plain'];
+          const maxSize = 5 * 1024 * 1024;
+
+          if (!validTypes.includes(file.type)) {
+            $('#editFileError').text("Invalid file type. Supported file types: .pdf, .jpg, .jpeg, .txt.").removeClass('d-none');
+            return;
+          } else {
+            $('#editFileError').addClass('d-none');
+          }
+
+          if (file.size > maxSize) {
+            $('#editFileError').text("File size exceeds the 5MB limit.").removeClass('d-none');
+            return;
+          } else {
+            $('#editFileError').addClass('d-none');
+          }
+
+          formData.append("file", file);
+          formData.append("filename", file.name);
+          formData.append("MIMETYPE", file.type);
+        } else {
+          // No new file → send existing info
+          formData.append("filename", $('#filenameDisplay').text());
+          formData.append("MIMETYPE", "");
+          formData.append("file", "");
+        }
+
+        sendUpdateRequest(formData);
+      });
+
+      function sendUpdateRequest(formData) {
+        $.ajax({
+          url: `${BASE_API_URL}/admin/access/cause_update`,
+          type: 'POST',
+          headers: {
+            "X-APP-Key": "tnreat",
+            "X-APP-Name": "tnreat"
+          },
+          data: formData,
+          processData: false,   // prevent jQuery from processing data
+          contentType: false,   // let browser set correct headers
+          success: function (response) {
+            if (response.success) {
+              showSuccessToast("Notification updated successfully");
+              $('#editNotificationForm')[0].reset();
+              $('#editFileError').addClass('d-none');
+              setTimeout(function () {
+                location.reload();
+              }, 1000);
+            } else {
+              console.log("Error: " + response.message);
+            }
+          },
+          error: function (xhr, status, error) {
+            console.log('Error:', error);
+          }
+        });
+      }
+
+      // When the delete modal is shown, set the serial number to the delete button
+      $(document).on('click', '.delete-btn', function () {
+        var serialNumber = $(this).data('serial_number');
+        $('#deleteBtn').data('serial_number', serialNumber);
+      });
+      // When the delete button is clicked
+      $('#deleteBtn').on('click', function () {
+        // Get the serial number from the delete button's data attributes
+        const serialNumber = $(this).data('serial_number');
+        // Prepare the AJAX request payload
+        const payload = {
+          serial_number: serialNumber
+        };
+
+        // Make the AJAX POST request
+        $.ajax({
+          url: `${BASE_API_URL}/admin/access/cause_delete`,
+          type: 'POST',
+          headers: {
+            "X-APP-Key": "tnreat",
+            "X-APP-Name": "tnreat"
+          },
+          contentType: 'application/json', // Tell the server the content type is JSON
+          data: JSON.stringify(payload),  // Send the data as form data (jQuery will handle it)
+          success: function (response) {
+            showSuccessToast("Cause deleted successfully");
+            setTimeout(function () {
+              location.reload(); // Reload the page after deletion
+            }, 1000);
+          },
+          error: function (xhr, status, error) {
+            // Handle errors here
+            console.log('Error deleting Cause:', error);
+          }
+        });
+      });
+      // Function to convert date from DD/MM/YYYY to YYYY-MM-DD
+      function formatDate(dateString) {
+        const parts = dateString.split('/');
+        return `${parts[2]}-${parts[1]}-${parts[0]}`; // YYYY-MM-DD
+      }
+    });
+  </script>
+  <script>
+    $(document).ready(function () {
+      let fontSize = 16;  // Default font size in pixels
+      let changeCount = 0;
+      const maxChanges = 2;  // Max 2 times increase or decrease
+      const defaultFontSize = fontSize; // Save the default font size
+
+      // Function to apply the new font size to specific HTML tags
+      function applyFontSize(size) {
+        const tags = 'p, i, a, li, h1, h2, h3, h4, h5, h6, span, small';
+        $(tags).css('font-size', size + 'px');
+      }
+
+      // Decrease Font Size
+      $('.btn-decrease').click(function () {
+        if (changeCount > -maxChanges) {
+          fontSize -= 2; // Decrease font size by 2px
+          applyFontSize(fontSize);
+          changeCount--;
+        }
+      });
+
+      // Increase Font Size
+      $('.btn-increase').click(function () {
+        if (changeCount < maxChanges) {
+          fontSize += 2; // Increase font size by 2px
+          applyFontSize(fontSize);
+          changeCount++;
+        }
+      });
+
+      // Reset to Default Font Size
+      $('.btn-orig').click(function () {
+        fontSize = defaultFontSize; // Reset font size to the original
+        applyFontSize(fontSize);
+        changeCount = 0; // Reset the change counter
+      });
+
+
+    });
+  </script>
+
+  <!-- <script>
+        $(document).ready(function () {
+            // Check localStorage for dark mode preference
+            if (localStorage.getItem('darkmode') === 'enabled') {
+                $('body').addClass('darkmode');
+            }
+
+            // Toggle dark mode when icon is clicked
+            $('#darkmode').click(function () {
+                $('body').toggleClass('darkmode');
+
+                // Store the dark mode state in localStorage
+                if ($('body').hasClass('darkmode')) {
+                    localStorage.setItem('darkmode', 'enabled');
+                } else {
+                    localStorage.setItem('darkmode', 'disabled');
+                }
+            });
+        });
+    </script> -->
+
+
+</body>
+
+</html>
