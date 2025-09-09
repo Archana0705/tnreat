@@ -758,27 +758,6 @@
 
   </script>
 
-  <!-- <script>
-    $(document).ready(function () {
-      // Check localStorage for dark mode preference
-      if (localStorage.getItem('darkmode') === 'enabled') {
-        $('body').addClass('darkmode');
-      }
-
-      // Toggle dark mode when icon is clicked
-      $('#darkmode').click(function () {
-        $('body').toggleClass('darkmode');
-
-        // Store the dark mode state in localStorage
-        if ($('body').hasClass('darkmode')) {
-          localStorage.setItem('darkmode', 'enabled');
-        } else {
-          localStorage.setItem('darkmode', 'disabled');
-        }
-      });
-    });
-  </script> -->
-  <!-- Include DataTables and Buttons JS -->
   <script src="assets/vendor/datatable/jquery.dataTables.min.js"></script>
   <script src="assets/vendor/datatable/dataTables.bootstrap5.min.js"></script>
   <script src="assets/vendor/datatables-buttons/js/dataTables.buttons.min.js"></script>
@@ -847,6 +826,11 @@
 
     // ▶️ Initial load
     $(document).ready(function () {
+      function getCurrentLang() {
+        return localStorage.getItem("language") || "en";
+      }
+      window.getCurrentLang = getCurrentLang;  // make it globally available
+
       loadChairpersonMembers(getCurrentLang());
     });
 

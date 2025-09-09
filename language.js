@@ -1,4 +1,4 @@
- 
+
 
 const languageContent = {
     en: {
@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     function switchLang() {
-        
+
         const currentLang = getCurrentLang();
         const newLang = currentLang === "en" ? "ta" : "en";
         localStorage.setItem("language", newLang);
@@ -237,7 +237,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Attach button click
     const toggleBtn = document.getElementById("langToggle");
     if (toggleBtn) {
-        
+
         toggleBtn.addEventListener("click", function (e) {
             e.preventDefault();
             switchLang();
