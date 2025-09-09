@@ -953,9 +953,9 @@
             tr.append(`<td class="u-tL">${row.name_of_the_advocate}</td>`); // Name of the Advocate
             // tr.append(`<td class="u-tC"><a href="path/to/files/${row.filename}" download="${row.filename}" title="Download">Download</a></td>`); // Download link
             tr.append(`<td class="u-tC"><button class="download-btn" 
-                data-download="${row.download}" 
-                data-filename="${fileName}" 
-                data-mimetype="application/pdf">
+                data-download="${row.filename}" 
+                data-filename="${row.filename}" 
+                data-mimetype="${row.mimetype}">
                 Download
             </button></td>`);
             // Append the row to the table body
@@ -982,6 +982,27 @@
         console.error('Error fetching the data:', error);
       }
     });
+    // $(document).on('click', '.download-btn', function () {
+    //         let fileUrl = $(this).data('download');   // e.g. "uploads/Despatch Details.pdf"
+    //         const fileMimeType = $(this).data('mimetype');
+    //         const fileName = $(this).data('filename');
+
+    //         if (!fileUrl) {
+    //           console.error("File URL not found");
+    //           return;
+    //         }
+
+    //         // If relative path, prepend your server base
+    //         if (!fileUrl.startsWith("http")) {
+    //           fileUrl = BASE_UPLOAD_URL + fileUrl;
+    //         }
+
+    //         // Encode spaces/special chars
+    //         fileUrl = encodeURI(fileUrl);
+
+    //         // Open file in new tab (browser handles download or view)
+    //         window.open(fileUrl, '_blank');
+    //       });
     // jQuery AJAX call to fetch data from API
     $(document).on('click', '.download-btn', function () {
       const filePath = $(this).data('download'); // e.g., "uploads/test.pdf"
