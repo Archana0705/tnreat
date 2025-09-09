@@ -777,6 +777,10 @@
     }
 
     $(document).ready(function () {
+      function getCurrentLang() {
+        return localStorage.getItem("language") || "en";
+      }
+      window.getCurrentLang = getCurrentLang;
       loadFormerChairpersons(getCurrentLang());
     });
 
